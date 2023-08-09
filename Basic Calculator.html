@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Basic Calculator</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #222222, #111111);
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .calculator {
+            width: 300px;
+            border-radius: 10px;
+            background-color: #333333;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        
+        .calculator-header {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        input[type="text"] {
+            width: 90%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            background-color: #444444;
+            color: #ffffff;
+        }
+        
+        button {
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            margin: 5px;
+            border: none;
+            border-radius: 50%;
+            background-color: #666666;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #555555;
+        }
+        
+        button.operator {
+            background-color: #ff9500;
+            color: #ffffff;
+        }
+        
+        button.operator:hover {
+            background-color: #e68a00;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="calculator-header">
+            Basic Calculator
+        </div>
+        <input type="text" id="result" readonly>
+        <button onclick="appendNumber(7)">7</button>
+        <button onclick="appendNumber(8)">8</button>
+        <button onclick="appendNumber(9)">9</button>
+        <button class="operator" onclick="appendOperator('+')">+</button>
+        <button onclick="appendNumber(4)">4</button>
+        <button onclick="appendNumber(5)">5</button>
+        <button onclick="appendNumber(6)">6</button>
+        <button class="operator" onclick="appendOperator('-')">-</button>
+        <button onclick="appendNumber(1)">1</button>
+        <button onclick="appendNumber(2)">2</button>
+        <button onclick="appendNumber(3)">3</button>
+        <button class="operator" onclick="appendOperator('*')">*</button>
+        <button onclick="appendNumber(0)">0</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="clearResult()">C</button>
+        <button class="operator" onclick="appendOperator('/')">/</button>
+    </div>
+    <script>
+            let currentInput = "";
+            let currentOperator = "";
+            const resultElement = document.getElementById("result");
+
+            function appendNumber(number) {
+                currentInput += number;
+                resultElement.value = currentInput;
+            }
+
+            function appendOperator(operator) {
+                if (currentInput !== "") {
+                    if (currentOperator !== "") {
+                        calculate();
+                    }
+                    currentOperator = operator;
+                    currentInput += operator;
+                    resultElement.value = currentInput;
+                }
+            }
+
+            function calculate() {
+                if (currentInput !== "") {
+                    try {
+                        const result = eval(currentInput);
+                        if (!Number.isFinite(result)) {
+                            throw new Error("Result is not a valid number");
+                        }
+                        currentInput = result.toString();
+                        resultElement.value = currentInput;
+                    } catch (error) {
+                        resultElement.value = "Error";
+                    }
+                }
+            }
+
+            function clearResult() {
+                currentInput = "";
+                currentOperator = "";
+                resultElement.value = "";
+            }
+        </script>
+</body>
+</html>
